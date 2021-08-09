@@ -24,7 +24,7 @@
 	        		  <button type="button" onClick="location.href='/member/loginForm'" class="btn btn-light text-dark me-2">Login</button>
 	          		  <button type="button" onClick="location.href='/member/joinForm'" class="btn  btn-primary btn-warning font-color-white ">Sign-up</button>
 	          		  
-	          	  <!--  a href="#" class=" d-block link-dark text-decoration-none dropdown-toggle  " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+	          	  <a href="#" class=" d-block link-dark text-decoration-none dropdown-toggle  " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
 		           		<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle ">
 		          </a>
 		          <ul class="dropdown-menu text-small fr" aria-labelledby="dropdownUser1">
@@ -33,7 +33,7 @@
 			            <li><a class="dropdown-item" href="#">Profile</a></li>
 			            <li><hr class="dropdown-divider"></li>
 			            <li><a class="dropdown-item" href="#">Sign out</a></li>
-		          </ul>-->
+		          </ul>>
 	        	</div>
 		          
 		          
