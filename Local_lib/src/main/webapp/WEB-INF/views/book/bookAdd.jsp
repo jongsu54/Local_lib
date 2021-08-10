@@ -44,7 +44,7 @@
 		});
 		
 		$("#search_adv").on("click",function(){
-			var title = $("#title").val();
+			var book_name = $("#book_name").val();
 			var author = $("#author").val();
 			var isbn = $("#isbn").val();
 			var publisher = $("#publisher").val();
@@ -55,7 +55,7 @@
 				//한글로 보내주기 위해선 필요
 				contentType : "application/json; charset=utf-8",
 				data : {
-					title : title
+					book_name : book_name
 					,author : author
 					,isbn : isbn
 					,publisher : publisher
@@ -86,7 +86,7 @@
 	});
 	
 	function check_form(){
-		var title = document.getElementById("title_d").value;
+		var book_name = document.getElementById("book_name_d").value;
 		var author = document.getElementById("author_d").value;
 		var publisher = document.getElementById("publisher_d").value;
 		var isbn = document.getElementById("isbn_d").value;
@@ -104,7 +104,7 @@
 						+ parseInt((isbn%100)/10)*3
 						+ parseInt((isbn%10)/1);
 		
-		if(title.length == 0){
+		if(book_name.length == 0){
 			alert("제목을 입력해주세요.");
 			return false;
 		}
@@ -123,7 +123,8 @@
 		//api에서 isbn검색으로 검색으로 등록이 가능한지 체크
 		//if(가능) 
 		// 자동으로 상세 검색창에 isbn 검색해서 결과출력 
-		document.book_insert_form.submit;
+		//document.book_insert_form.submit;
+		return true;
 	}
 	</script>
 </head>
@@ -138,7 +139,7 @@
 		<div id="search_adv_form">
 			<table>
 				<tr>
-					<td>책제목<input type="text" id="title"></td>
+					<td>책제목<input type="text" id="book_name"></td>
 					<td>저 자<input type="text" id="author"></td>
 				</tr>
 				<tr>
@@ -155,11 +156,11 @@
 		</div>
 		
 	<div id="book_insert_direct">
-		<form name="book_insert_form" method="get">
+		<form action="/bookInsert" name="book_insert_form" method="get">
 			<table>
 				<tr>
 					<td>제목</td>
-					<td><input type="text" id="title_d"></td>
+					<td><input type="text" id="book_name_d"></td>
 				</tr>
 				<tr>
 					<td>저자</td>
@@ -186,7 +187,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-					<button id="submit_form" type="button" onclick="check_form();">		
+					<button id="submit_form" type="submit" onsubmit="check_form();">		
 						등록
 					</button>
 					<button id="refresh" type="button">

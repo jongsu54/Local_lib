@@ -4,9 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="" alias="" />
+		<typeAlias type="com.sbk.locallib.book.vo.BookVO" alias="book" />
 	</typeAliases>
 	<mappers>
-		<mapper resource="" />
+		<mapper resource="mapper/BookMapper.xml" />
 	</mappers>
 </configuration>

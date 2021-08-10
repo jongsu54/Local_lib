@@ -12,15 +12,20 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sbk.locallib.book.service.BookService;
 import com.sbk.locallib.book.vo.BookVO;
 
 @Controller
 public class BookController {
+	
+	@Autowired
+	private BookService service;
 	
 	//bookAdd로 이동
 	@RequestMapping(value="/book/bookAdd" , method = RequestMethod.GET)
@@ -28,10 +33,15 @@ public class BookController {
 		return "book/bookAdd";
 	}
 	
+	@RequestMapping(value="/bookInsert" , method = RequestMethod.GET)
+	public String bookInsert(BookVO book) {
+		return service.bookInsert(book);
+	}
+	
 	// 리턴할 때 한글로 인코딩 해서 보여주는 거: produces =
 	@ResponseBody
 	@RequestMapping(value = "/naverBookSearch", method = RequestMethod.GET, produces = "application/text;charset=UTF-8")
-	public String naverSearch(String keyword, BookVO book) {
+	public String naverBookSearch(String keyword, BookVO book) {
 		String clientId = "lLhpxGB8vpFt8ZUpZsDO"; // 애플리케이션 클라이언트 아이디값"
 		String clientSecret = "1paRu2jdsA"; // 애플리케이션 클라이언트 시크릿값"
 		
@@ -39,13 +49,13 @@ public class BookController {
 		
 		
 		String text = "";
-		String title = "", author = "", isbn = "", publisher = "";
+		String book_name = "", author = "", isbn = "", publisher = "";
 		
 		try {
 			if(keyword!=null)
 				text = URLEncoder.encode(keyword, "UTF-8");
-			if(book.getTitle()!=null)
-				title = URLEncoder.encode(book.getTitle(), "UTF-8");
+			if(book.getBook_name()!=null)
+				book_name = URLEncoder.encode(book.getBook_name(), "UTF-8");
 			if(book.getAuthor()!=null)
 				author = URLEncoder.encode(book.getAuthor(), "UTF-8");
 			if(book.getIsbn()!=null)
@@ -67,7 +77,7 @@ public class BookController {
 			apiURL = "https://openapi.naver.com/v1/search/book?query=" + text; // json 결과
 		} else {
 			apiURL = "https://openapi.naver.com/v1/search/book_adv?"
-					+ "d_titl=" + title + "&d_auth=" + author +"&d_isbn=" + isbn +"&d_publ=" + publisher; // json 결과
+					+ "d_titl=" + book_name + "&d_auth=" + author +"&d_isbn=" + isbn +"&d_publ=" + publisher; // json 결과
 		}
 		//https://book.naver.com/search/search.nhn?publishStartDay=&publishEndDay=&categoryId=&serviceSm=advbook.basic&ic=service.summary&title=&author=%EC%A0%95%EC%8A%B9%ED%98%84&publisher=&isbn=&toc=&subject=&cate1Depth=&cate2Depth=&cate3Depth=&cate4Depth=&publishStartYear=&publishStartMonth=&publishEndYear=&publishEndMonth=&x=26&y=15
 		

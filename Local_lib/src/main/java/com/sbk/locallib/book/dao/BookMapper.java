@@ -1,5 +1,8 @@
 package com.sbk.locallib.book.dao;
 
-public interface BookMapper {
+import com.sbk.locallib.book.vo.BookVO;
 
+public interface BookMapper {
+	
+	public int bookInsert(BookVO book);
 }
