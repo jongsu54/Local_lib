@@ -19,6 +19,15 @@ public class MemberController {
 		return "member/loginForm";
 	}
 	
+	//MyPage로 이동
+	@RequestMapping(value="/member/myPage" , method = RequestMethod.GET)
+	public String myPage() {
+		return "member/myPage";
+	}
 	
-	
+	//MyInfo로 이동
+	@RequestMapping(value="/member/myInfo" , method = RequestMethod.GET)
+	public String myInfo() {
+		return "member/myInfo";
+	}
 }
