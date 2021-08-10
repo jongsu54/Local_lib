@@ -156,7 +156,7 @@
 		</div>
 		
 	<div id="book_insert_direct">
-		<form action="/bookInsert" name="book_insert_form" method="get">
+		<form action="/bookInsert" name="book_insert_form" method="get" onsubmit="return check_form();">
 			<table>
 				<tr>
 					<td>제목</td>
@@ -187,7 +187,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-					<button id="submit_form" type="submit" onsubmit="check_form();">		
+					<button id="submit_form" type="submit">		
 						등록
 					</button>
 					<button id="refresh" type="button">
