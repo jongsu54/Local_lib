@@ -19,13 +19,30 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
 	
 	<script type="text/javascript">	
+	var book_name_temp = "";
+	var author_temp = "";
+	var publisher_temp = "";
+	var isbn_temp = "";
+	var kdc_temp = "";
 	
 	$(function(){
 		//엄마 숨김
 		$("#bootstrap_mommy").hide();
 		
-		
-		
+		//검색으로 등록 <-> 직접 등록하기
+		$("#book_insert_direct").hide();
+		$("input:radio[name=btnradio]").click(function(){
+			var context = null;
+			if($("input[name=btnradio]:checked").val() == "1"){
+				$("#book_insert_direct").hide();
+				$("#book_insert").show();
+				$("#result").show();
+			}else if($("input[name=btnradio]:checked").val() == "0"){		
+				$("#book_insert").hide();
+				$("#book_insert_direct").show();
+				$("#result").hide();
+			}
+		});
 		
 		//도서 검색
 		$("#search").on("click",function(){
@@ -161,6 +178,12 @@
 						
 						var context = '';
 						if(data.items[0]!=null){
+							
+							book_name_temp = data.items[0].title;
+							author_temp = data.items[0].author;
+							publisher_temp = data.items[0].publisher;
+							isbn_temp = data.items[0].isbn;
+							
 							// 검색된 첫번째 데이터
 							context = '<table>'
 							context += '<tr><td rowspan="5"><img src='+data.items[0].image+'></td>';
@@ -171,6 +194,7 @@
 							context += '<tr><td>'+data.items[0].publisher+'</td></tr>';
 							context += '<tr><td><button id="insert_book" type="button">내 책 등록</button></td></tr><table>';
 						$("#book_show").html(context);
+						$("#bootstrap_mommy").trigger("click");
 						}
 					},
 					error : function(e){
@@ -187,8 +211,14 @@
 			//도서 종류 체크
 			//if(kdc){}
 
-			// 검사 통과후 책도 없을 시, 입력한 정보로 모달창 띄움
+			// 검사 통과후 책 없을 시, 입력한 정보로 모달창 띄움
 			if(check==true && bookisinNaver==false){
+				
+				book_name_temp = book_name;
+				author_temp = author;
+				publisher_temp = publisher;
+				isbn_temp = isbn;
+				
 				var context = '<table>'
 					context += '<tr><td rowspan="5">no image</td>';
 					context += '<td>'+book_name+'</td></tr>';
@@ -197,39 +227,34 @@
 					context += '<tr><td>'+publisher+'</td></tr>';
 					context += '<tr><td><button id="insert_book" type="button">내 책 등록</button></td></tr><table>';
 				$("#book_show").html(context);
+				$("#bootstrap_mommy").trigger("click");
 			}
-			
-			
 		});
 		
-		//검색으로 등록
-		$("input:radio[name=btnradio]").click(function(){
-			var context = null;
-			if($("input[name=btnradio]:checked").val() == "1"){
-			context = '<span><input type="text" id="keyword"></span><input type="button" id="search" value="검색">';
-	        console.log(context);
-			$("#book_insert").html(context);
-			}else if($("input[name=btnradio]:checked").val() == "0"){		
-			context = '<table>';
-			context += '<tr><td>제목</td>	<td><input type="text" name="book_name" id="book_name_d"></td></tr>';
-			context += '<tr><td>저자</td><td><input type="text" name="author" id="author_d"></td></tr>';
-			context += '<tr><td>출판사</td><td><input type="text" name="publisher" id="publisher_d"></td></tr>';
-			context += '<tr><td>ISBN</td><td><input type="text" name="isbn" id="isbn_d" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g,'; 
-			context += "''";
-			context += ');" ></td></tr>';
-			context += '<tr><td>도서분류</td><td>';
-			context += '<select id="kdc_first" name="kdc_first">';
-			context += '<option value"">선택</option>';
-			context += '</select>';
-			context += '<select id="kdc_second" name="kdc_second">';
-			context += '<option value"">선택</option>';
-			context += '</select>';
-			context += '</td></tr><tr><td colspan="2"><button id="submit_form" type="button">등록	</button>';
-			context += '<button id="refresh" type="button">다시입력</button></td></tr></table>';
-	        $("#book_insert").html(context);
-	        console.log(context);
-			}
+		// 도서 등록
+		$("#insert_book").on("click",function(){
+			$.ajax({
+				url : '/bookInsert',
+				type : 'get',
+				//한글로 보내주기 위해선 필요
+				contentType : "application/json; charset=utf-8",
+				data : {
+					book_name : book_name_temp,
+					author : author_temp,
+					publisher :publisher_temp,
+					isbn : isbn_temp,
+					kdc : kdc_temp
+				},
+				dataType : "json",
+				success : function(data){
+					console.log(data);
+				},
+				error : function(e){
+					console.log(e);	
+				}
+			});
 		});
+
 	});
 	function search_book_info(keyword){
 //		location.href="/naverBookSearch?keyword="+keyword;
@@ -248,6 +273,12 @@
 
 				var context = '';
 				if(data.items[0]!=null){
+					
+					book_name_temp = data.items[0].title;
+					author_temp = data.items[0].author;
+					publisher_temp = data.items[0].publisher;
+					isbn_temp = data.items[0].isbn;
+					
 					// 검색된 첫번째 데이터
 					context = '<table>'
 					context += '<tr><td rowspan="5"><img src='+data.items[0].image+'></td>';
@@ -362,6 +393,48 @@
         	<span><input type="text" id="keyword" ></span>
         	<input type="button" id="search" value="검색">
         </div>
+        
+        <div id="book_insert_direct">
+			<table>
+				<tr>
+					<td>제목</td>
+					<td><input type="text" name="book_name" id="book_name_d"></td>
+				</tr>
+				<tr>
+					<td>저자</td>
+					<td><input type="text" name="author" id="author_d"></td>
+				</tr>
+				<tr>
+					<td>출판사</td>
+					<td><input type="text" name="publisher" id="publisher_d"></td>
+				</tr>
+				<tr>
+					<td>ISBN</td>
+					<td><input type="text" name="isbn" id="isbn_d" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');" ></td>
+				</tr>
+				<tr>
+					<td>도서분류</td>
+					<td>
+						<select id="kdc_first" name="kdc_first">
+							<option value"">선택</option>
+						</select>
+						<select id="kdc_second" name="kdc_second">
+							<option value"">선택</option>
+						</select>
+					 </td>
+				</tr>
+				<tr>
+					<td colspan="2">
+					<button id="submit_form" type="button">		
+						등록
+					</button>
+					<button id="refresh" type="button">
+						다시입력
+					</button>
+					</td> 
+				</tr>
+			</table>
+		</div>
         
       </div>
       <div class="modal-footer">

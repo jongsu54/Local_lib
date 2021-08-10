@@ -33,6 +33,7 @@ public class BookController {
 		return "book/bookAdd";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="/bookInsert" , method = RequestMethod.GET)
 	public String bookInsert(BookVO book) {
 		return service.bookInsert(book);
