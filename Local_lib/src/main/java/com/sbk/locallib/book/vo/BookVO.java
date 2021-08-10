@@ -11,7 +11,7 @@ public class BookVO {
 	private String publisher;
 	private String isbn;
 	private int kdc;
-	private String date;
+	private String indate;
 	private String owner_id;
 	private int state_gb;
 }
