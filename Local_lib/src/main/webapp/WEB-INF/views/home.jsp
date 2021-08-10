@@ -21,6 +21,7 @@
 		    
 		    <div class="container">
 			    <div class="text-end">
+			   		  <button type="button" onClick="location.href='/member/findUserinfo'" class="btn btn-light text-dark me-2">FindUser</button>
 	        		  <button type="button" onClick="location.href='/member/loginForm'" class="btn btn-light text-dark me-2">Login</button>
 	          		  <button type="button" onClick="location.href='/member/joinForm'" class="btn  btn-primary btn-warning font-color-white ">Sign-up</button>
 	          		  

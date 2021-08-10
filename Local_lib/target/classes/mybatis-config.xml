@@ -4,9 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="" alias="" />
+		<typeAlias type="com.sbk.locallib.member.vo.MemberVO" alias="member" />
 	</typeAliases>
 	<mappers>
-		<mapper resource="" />
+		<mapper resource="findmapper/FindMapper.xml" />
 	</mappers>
 </configuration>

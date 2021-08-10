@@ -41,5 +41,10 @@ public class MemberController {
 		return service.nameCheck(name);
 	}
 	
+	//비밀번호찾기 페이지이동
+	@RequestMapping(value = "/member/findPw", method = RequestMethod.POST)
+	public String findPw() {
+		return "member/findPw";
+	}
 	
 }
