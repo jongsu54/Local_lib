@@ -9,6 +9,7 @@
 	<script src="/resources/js/jquery-3.6.0.js"></script>
 	<script type="text/javascript">
 	$(function(){
+		//도서 검색
 		$("#search").on("click",function(){
 			var keyword = $("#keyword").val();
 
@@ -43,6 +44,7 @@
 			
 		});
 		
+		//도서 상세 검색
 		$("#search_adv").on("click",function(){
 			var book_name = $("#book_name").val();
 			var author = $("#author").val();
@@ -82,9 +84,136 @@
 			});
 			
 		});
+		
+		// 도서 직접 제출 시 유효성 검사 & isbn 체크
+		$("#submit_form").on("click",function(){
+			var check = true;
+			var bookisinNaver = false;
+			
+			var book_name = $("#book_name_d").val();
+			var author = $("#author_d").val();
+			var publisher = $("#publisher_d").val();
+			var isbn = $("#isbn_d").val();
+			var isbn_chk = 	parseInt(isbn/1000000000000)
+							+ parseInt((isbn%1000000000000)/100000000000)*3
+							+ parseInt((isbn%100000000000)/10000000000)
+							+ parseInt((isbn%10000000000)/1000000000)*3
+							+ parseInt((isbn%1000000000)/100000000)
+							+ parseInt((isbn%100000000)/10000000)*3
+							+ parseInt((isbn%10000000)/1000000)
+							+ parseInt((isbn%1000000)/100000)*3
+							+ parseInt((isbn%100000)/10000)
+							+ parseInt((isbn%10000)/1000)*3
+							+ parseInt((isbn%1000)/100)
+							+ parseInt((isbn%100)/10)*3
+							+ parseInt((isbn%10)/1);
+			
+			if(book_name.length == 0){
+				alert("제목을 입력해주세요.");
+				check = false;
+			}
+			else if(author.length == 0){
+				alert("저자를 입력해주세요.");
+				check = false;
+			}
+			else if(publisher.length == 0){
+				alert("출판사를 입력해주세요.");
+				check = false;
+			}
+			else if(isbn.length < 13 || isbn < 9780000000000 || isbn > 9799999999999 || isbn_chk % 10 != 0 ){
+				alert("isbn을 잘못 입력하셨습니다.");
+				check = false;
+			}
+			
+			// 유효성 검사 통과 시
+			if(check==true){
+			// 네이버 api로 isbn으로 검색 가능한지 체크
+			// check_isbn_from_naver(isbn);
+				$.ajax({
+					url : '/naverBookSearch',
+					type : 'get',
+					//한글로 보내주기 위해선 필요
+					contentType : "application/json; charset=utf-8",
+					data : {
+						isbn : isbn
+					},
+					dataType : "json",
+					success : function(data){
+						console.log(data);
+						
+						// 검색된 첫번째 데이터
+						var context = '<table>'
+							context += '<tr><td rowspan="5"><img src='+data.items[0].image+'></td>';
+							context += '<td>'+data.items[0].title+'</td></tr>';
+							context += '<tr><td>'+data.items[0].author+'</td></tr>';	
+							context += '<tr><td>'+data.items[0].isbn+'</td></tr>';
+							context += '<tr><td>'+data.items[0].publisher+'</td></tr>';
+							context += '<tr><td><button id="insert_book" type="button">내 책 등록</button></td></tr><table>';
+						$("#insert_form_final").html(context);
+					},
+					error : function(e){
+						console.log(e);	
+					}
+				});
+				
+				if($("#insert_form_final").text().length!=0){
+					bookisinNaver = true;
+					alert("해당 isbn은 검색 가능합니다.");
+				}
+			}
+			
+			//도서 종류 체크
+			//if(kdc){}
 
+			// 검사 통과후 책도 없을 시, 입력한 정보로 모달창 띄움
+			if(check==true && bookisinNaver==false){
+				var context = '<table>'
+					context += '<tr><td rowspan="5">no image</td>';
+					context += '<td>'+book_name+'</td></tr>';
+					context += '<tr><td>'+author+'</td></tr>';	
+					context += '<tr><td>'+isbn+'</td></tr>';
+					context += '<tr><td>'+publisher+'</td></tr>';
+					context += '<tr><td><button id="insert_book" type="button">내 책 등록</button></td></tr><table>';
+				$("#insert_form_final").html(context);
+			}
+			
+		});
+
+		/*
+		// isbn으로 도서 검색하여 정보 추출
+		function check_isbn_from_naver(data){
+			$.ajax({
+				url : '/naverBookSearch',
+				type : 'get',
+				//한글로 보내주기 위해선 필요
+				contentType : "application/json; charset=utf-8",
+				data : {
+					isbn : isbn
+				},
+				dataType : "json",
+				success : function(data){
+					console.log(data);
+					
+					// 검색된 첫번째 데이터
+					var context = '<table>'
+						context += '<tr><td rowspan="5"><img src='+data.items[0].image+'></td>';
+						context += '<td>'+data.items[0].title+'</td></tr>';
+						context += '<tr><td>'+data.items[0].author+'</td></tr>';	
+						context += '<tr><td>'+data.items[0].isbn+'</td></tr>';
+						context += '<tr><td>'+data.items[0].publisher+'</td></tr>';
+						context += '<tr><td>내 책 등록</td></tr><table>';
+					$("#insert_form_final").html(context);
+				},
+				error : function(e){
+					console.log(e);	
+				}
+			});
+		};
+		*/
+		
 	});
 	
+	/*
 	function check_form(){
 		var book_name = document.getElementById("book_name_d").value;
 		var author = document.getElementById("author_d").value;
@@ -126,6 +255,7 @@
 		//document.book_insert_form.submit;
 		return true;
 	}
+	*/
 	</script>
 </head>
 
@@ -187,7 +317,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-					<button id="submit_form" type="submit">		
+					<button id="submit_form" type="button">		
 						등록
 					</button>
 					<button id="refresh" type="button">
@@ -197,6 +327,10 @@
 				</tr>
 			</table>
 		</form>
+	</div>
+	
+	<!-- 모달로 띄울 부분 -->
+	<div id="insert_form_final">
 	</div>
 	
 </body>

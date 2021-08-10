@@ -50,10 +50,7 @@
 	        <div class="search-bar mx-auto mt-5 rounded-pill input-group mb-3">
 	  				<input type="text" class="form-control " placeholder="어떤 도서를 찾으시나요:)" aria-label="Recipient's username" aria-describedby="button-addon2">
 	  				<button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
-		</div>
-	        
-	        
-	        
+			</div> 
 	  </form>
 		
 	
