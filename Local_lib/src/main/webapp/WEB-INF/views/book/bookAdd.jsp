@@ -141,8 +141,10 @@
 					success : function(data){
 						console.log(data);
 						
-						// 검색된 첫번째 데이터
-						var context = '<table>'
+						var context = '';
+						if(data.items[0]!=null){
+							// 검색된 첫번째 데이터
+							context = '<table>'
 							context += '<tr><td rowspan="5"><img src='+data.items[0].image+'></td>';
 							context += '<td>'+data.items[0].title+'</td></tr>';
 							context += '<tr><td>'+data.items[0].author+'</td></tr>';	
@@ -150,13 +152,14 @@
 							context += '<tr><td>'+data.items[0].publisher+'</td></tr>';
 							context += '<tr><td><button id="insert_book" type="button">내 책 등록</button></td></tr><table>';
 						$("#insert_form_final").html(context);
+						}
 					},
 					error : function(e){
 						console.log(e);	
 					}
 				});
-				
-				if($("#insert_form_final").text().length!=0){
+				console.log($("#insert_form_final").text().length);
+				if($("#insert_form_final").text().length!=2){
 					bookisinNaver = true;
 					alert("해당 isbn은 검색 가능합니다.");
 				}
