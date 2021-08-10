@@ -19,6 +19,9 @@ public class BookService {
 	
 	public String bookInsert(BookVO book) {
 		String path = "";
+		//kdc와 사용자 정보 반영 필요
+		book.setKdc(0);
+		book.setOwner_id("");
 		int cnt = dao.bookInsert(book);
 		
 		if(cnt>0) {

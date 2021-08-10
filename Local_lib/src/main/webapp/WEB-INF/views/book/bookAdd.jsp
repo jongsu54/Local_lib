@@ -160,27 +160,27 @@
 			<table>
 				<tr>
 					<td>제목</td>
-					<td><input type="text" id="book_name_d"></td>
+					<td><input type="text" name="book_name" id="book_name_d"></td>
 				</tr>
 				<tr>
 					<td>저자</td>
-					<td><input type="text" id="author_d"></td>
+					<td><input type="text" name="author" id="author_d"></td>
 				</tr>
 				<tr>
 					<td>출판사</td>
-					<td><input type="text" id="publisher_d"></td>
+					<td><input type="text" name="publisher" id="publisher_d"></td>
 				</tr>
 				<tr>
 					<td>ISBN</td>
-					<td><input type="text" id="isbn_d" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');" ></td>
+					<td><input type="text" name="isbn" id="isbn_d" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');" ></td>
 				</tr>
 				<tr>
 					<td>도서분류</td>
 					<td>
-						<select id="first">
+						<select id="kdc_first" name="kdc_first">
 							<option value"">선택</option>
 						</select>
-						<select id="second">
+						<select id="kdc_second" name="kdc_second">
 							<option value"">선택</option>
 						</select>
 					 </td>

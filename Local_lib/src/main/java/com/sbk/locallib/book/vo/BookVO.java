@@ -5,13 +5,13 @@ import lombok.Data;
 @Data
 public class BookVO {
 
-	private String book_id;
+	private int book_id;
 	private String book_name;	
 	private String author;
 	private String publisher;
 	private String isbn;
-	private String kdc;
+	private int kdc;
 	private String date;
 	private String owner_id;
-	private String state_gb;
+	private int state_gb;
 }
