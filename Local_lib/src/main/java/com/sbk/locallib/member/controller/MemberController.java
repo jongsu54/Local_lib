@@ -2,6 +2,7 @@ package com.sbk.locallib.member.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +15,7 @@ public class MemberController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
-	
+	@Autowired
 	private FindService service;
 	
 	@RequestMapping(value="/member/joinForm" , method = RequestMethod.GET)
@@ -41,10 +42,10 @@ public class MemberController {
 		return service.nameCheck(name);
 	}
 	
-	//비밀번호찾기 페이지이동
-	@RequestMapping(value = "/member/findPw", method = RequestMethod.POST)
-	public String findPw() {
-		return "member/findPw";
+	//아이디 찾기 페이지이동
+	@RequestMapping(value = "/member/findId", method = RequestMethod.POST)
+	public String findId() {
+		return "/member/findId";
 	}
 	
 }

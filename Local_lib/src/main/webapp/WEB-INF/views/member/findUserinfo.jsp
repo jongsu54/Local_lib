@@ -8,7 +8,7 @@
 
 <script type="text/javascript" src="/resources/js/jquery-3.6.0.js"></script>
 <script type="text/javascript">
-//var dpcheck = false;
+var dpcheck = false;
 
 $(function(){
 	
@@ -24,14 +24,17 @@ $(function(){
 			dataType : "json",
 			success : function(data){
 				if(data){
+					
 					var ck = confirm("등록되어있는 이름입니다. 이 정보로 검색하시겠습니까?");
 					if(ck){
 						$("#name").prop("readonly", true);
-						dpcheck = true;
+						
 					}
 				}else{
+					alert(data);
 					alert("입력하신 정보가 없습니다. 회원가입을 진행해 주세요");
 					$("#name").val("").focus();
+					dpcheck = true;
 				}
 			},
 			error : function(e){
@@ -40,6 +43,7 @@ $(function(){
 		});
 	});
 });
+
 
 //alert("1");
 function formCheck1(){
@@ -51,46 +55,40 @@ function formCheck1(){
 	var email2 = $("#email2").val();
 	//var user_id = $("#user_id").val();	
 	
-	
-/*
-	//이름확인버튼
-	if(!dpCheck){
-		alert("이름확인 버튼을 눌러주세요");
-		return false;
-	}
-
+	/*
 	//아이디
 	if(user_id == ""){
 		alert("아이디를 입력해주세요");
 		return false;
 	}
-*/
-
+	*/
+	//이름
 	if(name == ""){
 		alert("이름을 입력해 주세요");
 		return false;
 	}
-
+	
 	//이메일
 	if(email1 == ""){
 		alert("이메일 아이디를 입력해주세요");
 		return false;
 	}
-	
 	//alert("3");
-	
 	if(email2 == ""){
 		
 		alert("이메일 주소를 입력해 주세요");
 		return false;
 	}	
+	alert("4");
+	//이름확인버튼
+	if(!dpCheck){
+		alert("이름확인 버튼을 눌러주세요");
+		return false;
+	}
 	
 	
 	
-	//alert("4");
-	
-	
-	return false;
+	return true;
 	
 }
 
@@ -101,9 +99,9 @@ function formCheck1(){
 
 <!-- 아이디 찾기 -->
 <div id="findDiv">
-	<form action="/findPw" method="post" onsubmit="return formCheck1();">
-		<input type="button" id="findId" value="아이디 찾기">
-		<input type="button" id="find" value="비밀번호 찾기"><br>
+	<form action="/member/findId" method="post" onsubmit="return formCheck1();">
+		<input type="button" id="findUserid" value="아이디 찾기">
+		<input type="button" id="findUserpw" value="비밀번호 찾기"><br>
 		
 		<label>이름</label><br>
 		<input type="text" id="name" placeholder="name"><br>
