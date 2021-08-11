@@ -36,7 +36,7 @@ public class MemberController {
 		
 	}
 	
-	//아이디 & 이메일 확인
+	//이름 & 이메일 확인
 	@ResponseBody
 	@RequestMapping(value = "userIdCheck", method = RequestMethod.POST)
 	public MemberVO userIdCheck(MemberVO member) {
@@ -49,13 +49,15 @@ public class MemberController {
 		return service.userCheck(member);
 	}
 	
+	//이름 & 이메일 & 아이디 확인
+	@ResponseBody
+	@RequestMapping(value = "pw_userPwCheck", method = RequestMethod.POST)
+	public MemberVO pw_userPwCheck(MemberVO member) {
+		return service.pw_userCheck(member);
+	}
 	
 	
-	//아이디 찾기
-//	@RequestMapping(value = "/member/findId", method = RequestMethod.POST)
-//	public String findId(MemberVO member) {
-//		return service.findId(member);
-//	}
+	
 	
 	
 }

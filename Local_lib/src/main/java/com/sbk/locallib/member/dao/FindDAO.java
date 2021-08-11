@@ -11,13 +11,26 @@ public class FindDAO {
 	@Autowired
 	private SqlSession session;
 	
-	//아이디 & 이메일 확인
+	//이름 & 이메일 확인
 	public MemberVO searchMember(MemberVO member) {
 		MemberVO user = null;
 		
 		try {
 			FindMapper mapper = session.getMapper(FindMapper.class);
 			user = mapper.searchMember(member);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
+	//이름 & 이메일 & 아이디 확인
+	public MemberVO pw_searchMember(MemberVO member) {
+		MemberVO user = null;
+		
+		try {
+			FindMapper mapper = session.getMapper(FindMapper.class);
+			user = mapper.pw_searchMember(member);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -5,7 +5,7 @@
 
 <mapper namespace="com.sbk.locallib.member.dao.FindMapper">
 
-<!-- 아이디 & 이메일확인 -->
+<!-- 이름 & 이메일확인 -->
 <select id="searchMember" parameterType="string" resultType="member">
 select
 	name
@@ -18,5 +18,28 @@ where
 	name = #{name}
 and
 	email = #{email}
+	<!-- 
+	<if test="">
+	and
+		user_id = #{user_id}
+	</if>
+	 -->
+</select>
+
+<!-- 이름 & 이메일 & 아이디확인 -->
+<select id="pw_searchMember" parameterType="string" resultType="member">
+select
+	name
+	,user_id
+	,pw
+	,email
+from
+	user_info
+where
+	name = #{name}
+and
+	email = #{email}
+and
+	user_id = #{user_id}
 </select>
 </mapper>
