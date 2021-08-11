@@ -17,21 +17,23 @@ public class BookService {
 //	@Autowired
 //	private HttpSession session;
 	
-	public String bookInsert(BookVO book) {
-		String path = "";
+	public boolean bookInsert(BookVO book) {
+		boolean chk = false;
 		//kdc와 사용자 정보 반영 필요
 		book.setKdc(0);
 		book.setOwner_id("");
 		int cnt = dao.bookInsert(book);
 		
 		if(cnt>0) {
-			// 성공시 myInfo로
-			path = "redirect:/member/myInfo";
+//			성공시 myInfo로
+//			path = "redirect:/member/myInfo";
+			chk = true;
 		} else {
-			// 실패시 화면 그대로
-			path = "redirect:/book/bookAdd";
+//			실패시 화면 그대로
+//			path = "redirect:/book/bookAdd";
+			chk = false;
 		}
-		return path;
+		return chk;
 	}
 	
 }

@@ -35,7 +35,7 @@ public class BookController {
 	
 	@ResponseBody
 	@RequestMapping(value="/bookInsert" , method = RequestMethod.GET)
-	public String bookInsert(BookVO book) {
+	public boolean bookInsert(BookVO book) {
 		return service.bookInsert(book);
 	}
 	

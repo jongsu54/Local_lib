@@ -232,8 +232,8 @@
 		// 도서 등록
 		$("#insert_book").on("click",function(){
 			$.ajax({
-				url : '/bookInsert',
-				type : 'get',
+				url : "/bookInsert",
+				type : "get",
 				//한글로 보내주기 위해선 필요
 				contentType : "application/json; charset=utf-8",
 				data : {
@@ -244,8 +244,9 @@
 				},
 				dataType : "json",
 				success : function(data){
-					alert("살려줘");
-					console.log(data);
+					alert("등록되었습니다!")
+					$("#book_show_exit").trigger("click");
+//					console.log(data);
 				},
 			    error : function(request,status,error){
 			         alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -286,7 +287,6 @@
 					for(var i=3;i<16;i++){
 						isbn_temp += isbn_splited[i];
 					}
-					alert(isbn_temp);
 					
 					// 검색된 첫번째 데이터
 					context = '<table>'
@@ -459,7 +459,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalToggleLabel2">도서 상세보기</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" id="book_show_exit" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         
