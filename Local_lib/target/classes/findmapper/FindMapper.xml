@@ -4,12 +4,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sbk.locallib.member.dao.FindMapper">
-<select id="nameCheck" parameterType="string" resultType="member">
+
+<!-- 아이디 & 이메일확인 -->
+<select id="searchMember" parameterType="string" resultType="member">
 select
 	name
+	,user_id
+	,pw
+	,email
 from
 	user_info
 where
 	name = #{name}
+and
+	email = #{email}
 </select>
 </mapper>

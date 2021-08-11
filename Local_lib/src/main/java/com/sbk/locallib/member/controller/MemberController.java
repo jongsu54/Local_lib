@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbk.locallib.member.service.FindService;
+import com.sbk.locallib.member.vo.MemberVO;
 
 @Controller
 public class MemberController {
@@ -35,17 +36,26 @@ public class MemberController {
 		
 	}
 	
-	//이름확인
+	//아이디 & 이메일 확인
 	@ResponseBody
-	@RequestMapping(value = "nameCheck", method = RequestMethod.POST)
-	public boolean nameCheck(String name) {
-		return service.nameCheck(name);
+	@RequestMapping(value = "userIdCheck", method = RequestMethod.POST)
+	public MemberVO userIdCheck(MemberVO member) {
+		return service.userCheck(member);
 	}
 	
-	//아이디 찾기 페이지이동
-	@RequestMapping(value = "/member/findId", method = RequestMethod.POST)
-	public String findId() {
-		return "/member/findId";
+	@ResponseBody
+	@RequestMapping(value = "userPwCheck", method = RequestMethod.POST)
+	public MemberVO userPwCheck(MemberVO member) {
+		return service.userCheck(member);
 	}
+	
+	
+	
+	//아이디 찾기
+//	@RequestMapping(value = "/member/findId", method = RequestMethod.POST)
+//	public String findId(MemberVO member) {
+//		return service.findId(member);
+//	}
+	
 	
 }

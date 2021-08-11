@@ -4,7 +4,7 @@ import com.sbk.locallib.member.vo.MemberVO;
 
 public interface FindMapper {
 
-	//이름확인
-	public MemberVO nameCheck(String name);
+	//아이디 & 이메일 확인
+	public MemberVO searchMember(MemberVO member);
 	
 }
