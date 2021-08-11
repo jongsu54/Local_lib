@@ -186,13 +186,12 @@
 							
 							// 검색된 첫번째 데이터
 							context = '<table>'
-							context += '<tr><td rowspan="5"><img src='+data.items[0].image+'></td>';
+							context += '<tr><td rowspan="4"><img src='+data.items[0].image+'></td>';
 							context += '<td>'+data.items[0].title+'</td></tr>';
 							context += '<tr><td>'+data.items[0].author+'</td></tr>';	
 							var isbn_long = data.items[0].isbn.split(" ");
 							context += '<tr><td>'+isbn_long[1]+'</td></tr>';
-							context += '<tr><td>'+data.items[0].publisher+'</td></tr>';
-							context += '<tr><td><button id="insert_book" type="button">내 책 등록</button></td></tr><table>';
+							context += '<tr><td>'+data.items[0].publisher+'</td></tr></table>';
 						$("#book_show").html(context);
 						$("#bootstrap_mommy").trigger("click");
 						}
@@ -220,12 +219,11 @@
 				isbn_temp = isbn;
 				
 				var context = '<table>'
-					context += '<tr><td rowspan="5">no image</td>';
+					context += '<tr><td rowspan="4">no image</td>';
 					context += '<td>'+book_name+'</td></tr>';
 					context += '<tr><td>'+author+'</td></tr>';	
 					context += '<tr><td>'+isbn+'</td></tr>';
-					context += '<tr><td>'+publisher+'</td></tr>';
-					context += '<tr><td><button id="insert_book" type="button">내 책 등록</button></td></tr><table>';
+					context += '<tr><td>'+publisher+'</td></tr></table>';
 				$("#book_show").html(context);
 				$("#bootstrap_mommy").trigger("click");
 			}
@@ -237,16 +235,16 @@
 				url : '/bookInsert',
 				type : 'get',
 				//한글로 보내주기 위해선 필요
-				contentType : "application/json; charset=utf-8",
+				//contentType : "application/json; charset=utf-8",
 				data : {
 					book_name : book_name_temp,
 					author : author_temp,
-					publisher :publisher_temp,
 					isbn : isbn_temp,
-					kdc : kdc_temp
+					publisher : publisher_temp
 				},
 				dataType : "json",
 				success : function(data){
+					alert("살려줘");
 					console.log(data);
 				},
 				error : function(e){
@@ -256,6 +254,7 @@
 		});
 
 	});
+	
 	function search_book_info(keyword){
 //		location.href="/naverBookSearch?keyword="+keyword;
 		$.ajax({
@@ -281,13 +280,12 @@
 					
 					// 검색된 첫번째 데이터
 					context = '<table>'
-					context += '<tr><td rowspan="5"><img src='+data.items[0].image+'></td>';
+					context += '<tr><td rowspan="4"><img src='+data.items[0].image+'></td>';
 					context += '<td>'+data.items[0].title+'</td></tr>';
 					context += '<tr><td>'+data.items[0].author+'</td></tr>';	
 					var isbn_long = data.items[0].isbn.split(" ");
 					context += '<tr><td>'+isbn_long[1]+'</td></tr>';
-					context += '<tr><td>'+data.items[0].publisher+'</td></tr>';
-					context += '<tr><td><button id="insert_book" type="button">내 책 등록</button></td></tr><table>';
+					context += '<tr><td>'+data.items[0].publisher+'</td></tr></table>';
 				$("#book_show").html(context);
 				$("#bootstrap_mommy").trigger("click");
 				}
@@ -460,6 +458,9 @@
         
       </div>
       <div class="modal-footer">
+      	<div id="button_for_insert">
+      		<button id="insert_book" type="button">내 책 등록</button>
+        </div>
         <!-- <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button> -->
       </div>
     </div>
