@@ -178,18 +178,18 @@
 						
 						var context = '';
 						if(data.items[0]!=null){
+							var isbn_long = data.items[0].isbn.split(" ");
 							
 							book_name_temp = data.items[0].title;
 							author_temp = data.items[0].author;
 							publisher_temp = data.items[0].publisher;
-							isbn_temp = data.items[0].isbn;
+							isbn_temp = isbn_long[1];
 							
 							// 검색된 첫번째 데이터
 							context = '<table>'
 							context += '<tr><td rowspan="4"><img src='+data.items[0].image+'></td>';
 							context += '<td>'+data.items[0].title+'</td></tr>';
 							context += '<tr><td>'+data.items[0].author+'</td></tr>';	
-							var isbn_long = data.items[0].isbn.split(" ");
 							context += '<tr><td>'+isbn_long[1]+'</td></tr>';
 							context += '<tr><td>'+data.items[0].publisher+'</td></tr></table>';
 						$("#book_show").html(context);
@@ -235,7 +235,7 @@
 				url : '/bookInsert',
 				type : 'get',
 				//한글로 보내주기 위해선 필요
-				//contentType : "application/json; charset=utf-8",
+				contentType : "application/json; charset=utf-8",
 				data : {
 					book_name : book_name_temp,
 					author : author_temp,
@@ -247,9 +247,13 @@
 					alert("살려줘");
 					console.log(data);
 				},
-				error : function(e){
-					console.log(e);	
-				}
+			    error : function(request,status,error){
+			         alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			        }
+
+//				error : function(e){
+//					console.log(e);	
+//				}
 			});
 		});
 
@@ -272,18 +276,23 @@
 
 				var context = '';
 				if(data.items[0]!=null){
+					var isbn_long = data.items[0].isbn.split(" ");
 					
 					book_name_temp = data.items[0].title;
 					author_temp = data.items[0].author;
 					publisher_temp = data.items[0].publisher;
-					isbn_temp = data.items[0].isbn;
+					var isbn_splited = isbn_long[1].split("");
+					isbn_temp = "";
+					for(var i=3;i<16;i++){
+						isbn_temp += isbn_splited[i];
+					}
+					alert(isbn_temp);
 					
 					// 검색된 첫번째 데이터
 					context = '<table>'
 					context += '<tr><td rowspan="4"><img src='+data.items[0].image+'></td>';
 					context += '<td>'+data.items[0].title+'</td></tr>';
 					context += '<tr><td>'+data.items[0].author+'</td></tr>';	
-					var isbn_long = data.items[0].isbn.split(" ");
 					context += '<tr><td>'+isbn_long[1]+'</td></tr>';
 					context += '<tr><td>'+data.items[0].publisher+'</td></tr></table>';
 				$("#book_show").html(context);
