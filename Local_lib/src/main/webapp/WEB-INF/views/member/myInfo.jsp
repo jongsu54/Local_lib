@@ -15,15 +15,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
 	
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
-	
 	<script type="text/javascript">	
 	var book_name_temp = "";
 	var author_temp = "";
 	var publisher_temp = "";
 	var isbn_temp = "";
-	var kdc_temp = "";
+//	var kdc_temp = "";
 	
 	$(function(){
 		//엄마 숨김
@@ -142,6 +139,7 @@
 							+ parseInt((isbn%1000)/100)
 							+ parseInt((isbn%100)/10)*3
 							+ parseInt((isbn%10)/1);
+//			var kdc = $("#kdc").val();
 			
 			if(book_name.length == 0){
 				alert("제목을 입력해주세요.");
@@ -156,10 +154,16 @@
 				check = false;
 			}
 			else if(isbn.length < 13 || isbn < 9780000000000 || isbn > 9799999999999 || isbn_chk % 10 != 0 ){
-				alert("isbn을 잘못 입력하셨습니다.");
+				alert("잘못된 isbn 입니다.");
 				check = false;
 			}
-			
+/*
+			//도서 종류 체크
+			else if(kdc == 0){
+				alert("분류를 선택해주세요.");
+				check = false;
+			}
+*/			
 			// 유효성 검사 통과 시
 			if(check==true){
 			// 네이버 api로 isbn으로 검색 가능한지 체크
@@ -184,7 +188,10 @@
 							author_temp = data.items[0].author;
 							publisher_temp = data.items[0].publisher;
 							isbn_temp = isbn_long[1];
-							
+/*							
+							//카테고리 입력해야함				
+							kdc_temp = 
+*/							
 							// 검색된 첫번째 데이터
 							context = '<table>'
 							context += '<tr><td rowspan="4"><img src='+data.items[0].image+'></td>';
@@ -203,12 +210,9 @@
 				
 				if($("#book_show").text().length!=2){
 					bookisinNaver = true;
-					alert("해당 isbn은 검색 가능합니다.");
+					alert("해당 도서는 검색 가능합니다.");
 				}
 			}
-			
-			//도서 종류 체크
-			//if(kdc){}
 
 			// 검사 통과후 책 없을 시, 입력한 정보로 모달창 띄움
 			if(check==true && bookisinNaver==false){
@@ -217,6 +221,10 @@
 				author_temp = author;
 				publisher_temp = publisher;
 				isbn_temp = isbn;
+/*
+				//카테고리
+				kdc_temp = kdc;
+*/
 				
 				var context = '<table>'
 					context += '<tr><td rowspan="4">no image</td>';
@@ -241,20 +249,24 @@
 					author : author_temp,
 					isbn : isbn_temp,
 					publisher : publisher_temp
+/*					
+					//카테고리	입력			
+					,kdc : kdc_temp 
+*/
 				},
 				dataType : "json",
 				success : function(data){
-					alert("등록되었습니다!")
-					$("#book_show_exit").trigger("click");
-//					console.log(data);
+					if(data==true){
+						alert("등록되었습니다!");
+						$("#book_show_exit").trigger("click");
+					}else{
+						alert("등록에 실패하였습니다.");
+					}
 				},
 			    error : function(request,status,error){
 			         alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 			        }
 
-//				error : function(e){
-//					console.log(e);	
-//				}
 			});
 		});
 
@@ -287,7 +299,13 @@
 					for(var i=3;i<16;i++){
 						isbn_temp += isbn_splited[i];
 					}
-					
+/*
+					//카테고리 생략		
+					kdc_temp = "";
+					for(var i=0;i<3;i++){
+						kdc_temp 
+					}
+*/					
 					// 검색된 첫번째 데이터
 					context = '<table>'
 					context += '<tr><td rowspan="4"><img src='+data.items[0].image+'></td>';
@@ -419,17 +437,42 @@
 					<td>ISBN</td>
 					<td><input type="text" name="isbn" id="isbn_d" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');" ></td>
 				</tr>
+				<!-- 
 				<tr>
 					<td>도서분류</td>
 					<td>
-						<select id="kdc_first" name="kdc_first">
-							<option value"">선택</option>
+						<select id="kdc_d" name="kdc">
+							<option value="0">선택</option>
+							<option value="100">소설</option>
+							<option value="110">시/에세이</option>
+							<option value="120">인물</option>
+							<option value="130">가정/생활/요리</option>
+							<option value="140">건강</option>
+							<option value="150">취미</option>
+							<option value="160">경제</option>
+							<option value="170">자기계발</option>
+							<option value="180">사회</option>
+							<option value="190">역사/문화</option>
+							<option value="200">종교</option>
+							<option value="210">예술/대중문화</option>
+							<option value="220">학습/참고서</option>
+							<option value="230">국어/외국어</option>
+							<option value="240">사전</option>
+							<option value="250">과학/공학</option>
+							<option value="260">취업/수험서</option>
+							<option value="270">여행/지도</option>
+							<option value="280">컴퓨터/IT</option>
+							<option value="290">잡지</option>
+							<option value="300">청소년</option>
+							<option value="310">유아</option>
+							<option value="320">어린이</option>
+							<option value="330">만화</option>
+							<option value="340">해외도서</option>							
 						</select>
-						<select id="kdc_second" name="kdc_second">
-							<option value"">선택</option>
-						</select>
+
 					 </td>
 				</tr>
+				 -->
 				<tr>
 					<td colspan="2">
 					<button id="submit_form" type="button">		
