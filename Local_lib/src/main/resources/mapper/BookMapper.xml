@@ -24,9 +24,24 @@ insert into
 		,#{kdc}
 		,#{owner_id}
 	)
-
 </insert>
 
+<select id="getMyBooks" parameterType="string" resultType="book">
+select
+	book_id
+	,book_name
+	,author
+	,publisher
+	,isbn
+	,kdc
+	,to_char(indate,'yyyy-MM-dd') as indate
+	,owner_id
+	,state_gb
+from
+	book
+where
+	owner_id = #{owner_id}
+</select>
 
 
 </mapper>

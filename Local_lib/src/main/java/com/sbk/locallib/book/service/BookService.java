@@ -1,5 +1,7 @@
 package com.sbk.locallib.book.service;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +38,17 @@ public class BookService {
 		}
 		return chk;
 	}
+
+	public ArrayList<BookVO> getMyBooks() {
+//		session으로 부터 로그인한 사용자 정보 받아와 입력
+		String userId = "kkk31234";
+		
+		ArrayList<BookVO> list = dao.getMyBooks(userId);
+		return list;
+	}
+	
+	
+	
+	
 	
 }

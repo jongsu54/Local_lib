@@ -1,5 +1,7 @@
 package com.sbk.locallib.book.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,5 +23,16 @@ public class BookDAO {
 			e.printStackTrace();
 		}
 		return cnt;
+	}
+
+	public ArrayList<BookVO> getMyBooks(String userId) {
+		ArrayList<BookVO> list = null;
+		try {
+			BookMapper mapper = session.getMapper(BookMapper.class);
+			list = mapper.getMyBooks(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

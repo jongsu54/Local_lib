@@ -22,6 +22,8 @@
 //	var kdc_temp = "";
 	
 	$(function(){
+		/*------------------------------- 내 도서 등록 시작 ------------------------------------*/
+		
 		//엄마 숨김
 		$("#bootstrap_mommy").hide();
 		
@@ -199,7 +201,6 @@
 							//카테고리 입력해야함				
 							kdc_temp = 
 */							
-							// 검색된 첫번째 데이터
 							context = '<table>'
 							context += '<tr><td rowspan="4"><img src='+data.items[0].image+'></td>';
 							context += '<td>'+data.items[0].title+'</td></tr>';
@@ -249,17 +250,14 @@
 			$.ajax({
 				url : "/bookInsert",
 				type : "get",
-				//한글로 보내주기 위해선 필요
 				contentType : "application/json; charset=utf-8",
 				data : {
 					book_name : book_name_temp,
 					author : author_temp,
 					isbn : isbn_temp,
-					publisher : publisher_temp
-/*					
-					//카테고리	입력			
-					,kdc : kdc_temp 
-*/
+					publisher : publisher_temp				
+					//카테고리	입력 kdc 생략			
+
 				},
 				dataType : "json",
 				success : function(data){
@@ -277,9 +275,49 @@
 
 			});
 		});
+		/*------------------------------- 내 도서 등록 종료 ------------------------------------*/
 
+		/*------------------------------- 내 도서 표시 시작 ------------------------------------*/
+		$.ajax({
+			url : "/getMyBooks",
+			type : "get",
+			dataType : "json",
+			success : function(data){
+				//items의 i 번째 데이터의 내용
+				var context = '<table class="mx-auto">'
+					context += '<tr><td>제목</td><td>글쓴이</td><td>출판사</td><td></td></tr>'
+				$.each(data, function(i,o){
+					var state = "";
+					if(this.state_gb==1)
+						state = "대여가능";
+					else if(this.state_gb==2)
+						state = "대여중";
+					else if(this.state_gb==3)
+						state = "예약중";
+					else if(this.state_gb==4)
+						state = "비활성화";
+					
+					//onClick="search_book_info('+isbn_long[1]+')"
+					context += '<tr><td>'+this.book_name+'</td>';
+					context += '<td>'+this.author+'</td>';	
+					//context += '<td>'+this.isbn+'</td>';
+					context += '<td>'+this.publisher+'</td>';
+					context += '<td>'+state+'</td></tr>';
+				});
+				context += '<table>';
+				$("#show_my_books").html(context);
+			},
+			error : function(request,status,error){
+		         alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			}
+		});
+		/*------------------------------- 내 도서 표시 종료 ------------------------------------*/
+		
+		
 	});
 	
+
+	/*------------------------------- 내 도서 등록 시작 ------------------------------------*/
 	function search_book_info(keyword){
 //		location.href="/naverBookSearch?keyword="+keyword;
 		$.ajax({
@@ -314,7 +352,6 @@
 						kdc_temp 
 					}
 */					
-					// 검색된 첫번째 데이터
 					context = '<table>'
 					context += '<tr><td rowspan="4"><img src='+data.items[0].image+'></td>';
 					context += '<td>'+data.items[0].title+'</td></tr>';
@@ -329,9 +366,10 @@
 				console.log(e);	
 			}
 		});
-		//버튼 강제로 클릭
-		
 	}
+	/*------------------------------- 내 도서 등록 종료 ------------------------------------*/
+	
+	
 	</script>
 </head>
 <body>
@@ -376,10 +414,10 @@
 	</div>
 	<div>
 		나의 도서 목록
-		<button type="button" onClick="location.href='/book/bookAdd'">내 도서 등록</button>		
+		<!-- <button type="button" onClick="location.href='/book/bookAdd'">내 도서 등록</button>	-->	
 		<!-- Button trigger modal -->
 		<a class="btn btn-warning font-color-white" data-bs-toggle="modal" href="#exampleModalToggle" role="button">내 도서 등록</a>
-		<div>
+		<div id="show_my_books">
 			1.<br>
 			2.<br>
 			3.<br>
@@ -523,7 +561,7 @@
       </div>
       <div class="modal-footer">
       	<div id="button_for_insert">
-      		<button id="insert_book" type="button">내 책 등록</button>
+      		<button id="insert_book" type="button" class ="btn btn-warning btn-sm font-color-white mx-auto">내 책 등록</button>
         </div>
         <!-- <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button> -->
       </div>

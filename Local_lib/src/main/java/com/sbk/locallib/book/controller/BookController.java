@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,17 +28,28 @@ public class BookController {
 	@Autowired
 	private BookService service;
 	
-	//bookAdd로 이동
-	@RequestMapping(value="/book/bookAdd" , method = RequestMethod.GET)
-	public String myInfo() {
-		return "book/bookAdd";
-	}
+//	//bookAdd로 이동
+//	@RequestMapping(value="/book/bookAdd" , method = RequestMethod.GET)
+//	public String myInfo() {
+//		return "book/bookAdd";
+//	}
 	
+	//insert my book
 	@ResponseBody
 	@RequestMapping(value="/bookInsert" , method = RequestMethod.GET)
 	public boolean bookInsert(BookVO book) {
 		return service.bookInsert(book);
 	}
+	
+	//get my books form db
+	@ResponseBody
+	@RequestMapping(value="/getMyBooks", method = RequestMethod.GET)
+	public ArrayList<BookVO> getMyBooks(){
+		return service.getMyBooks();
+	}
+	
+	
+	//------------------------------------네이버 책 api---------------------------------------//
 	
 	// 리턴할 때 한글로 인코딩 해서 보여주는 거: produces =
 	@ResponseBody
@@ -140,5 +152,8 @@ public class BookController {
 			throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
 		}
 	}
+
+	//------------------------------------네이버 책 api 끝-----------------------------------//
+	
 
 }
