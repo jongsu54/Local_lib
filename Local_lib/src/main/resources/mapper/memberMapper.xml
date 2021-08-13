@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sbk.locallib.member.dao.MemberMapper">
+	<insert id="join" parameterType="member">
+		insert into
+			user_info(
+				user_id
+				,pw
+				,phone
+				,postcode
+				,addr1
+				,addr2
+				,email
+			)values(
+				#{user_id}
+				,#{pw}
+				,#{phone}
+				,#{postcode}
+				,#{addr1}
+				,#{addr2}
+				,#{email}
+			)
+	</insert>
+	
+	<select id="idCheck" parameterType="string" resultType="member">
+		select
+		    user_id
+		from
+			user_info
+		where
+			user_id = #{user_id}
+	</select>
+	
+	<select id="searchMember" parameterType="string" resultType="member">
+	
+	select
+
+	user_id,
+	pw,
+	name,
+	nickname,
+	phone,
+	phone_auth,
+	postcode,
+	addr1,
+	addr2,
+	email,
+	birthday,
+	gender,
+	user_gb,
+	to_char(join_date, 'yyyy-MM-dd') as join_date,
+	state_gb
+	
+	from
+		user_info
+	where
+		user_id = #{user_id}
+		
+	</select>
+	
+	
+	
+</mapper>

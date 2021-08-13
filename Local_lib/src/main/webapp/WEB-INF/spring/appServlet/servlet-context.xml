@@ -23,6 +23,8 @@
 	
 	<context:component-scan base-package="com.sbk.locallib" />
 	
-	
+	<!-- 로그인 인터셉터 정의 
+	<beans:bean id="loginInterceptor" class="com.sbk.locallib.util.LoginInterceptor"></beans:bean>
+	-->
 	
 </beans:beans>
