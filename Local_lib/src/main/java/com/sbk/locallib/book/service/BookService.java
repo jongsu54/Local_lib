@@ -22,7 +22,7 @@ public class BookService {
 		//kdc와 사용자 정보 반영 필요
 //		book.setKdc(0);
 //		session으로 부터 로그인한 사용자 정보 받아와 입력
-		book.setOwner_id("kkk3123");
+		book.setOwner_id("kkk31234");
 		int cnt = dao.bookInsert(book);
 		
 		if(cnt>0) {

@@ -9,11 +9,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>MyInfo</title>
 	<script src="/resources/js/jquery-3.6.0.js"></script>
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css" />
-    
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/css/main.css" />
 	
 	<script type="text/javascript">	
 	var book_name_temp = "";
@@ -25,6 +24,14 @@
 	$(function(){
 		//엄마 숨김
 		$("#bootstrap_mommy").hide();
+		
+		//직접 등록 리프레쉬
+		$("#refresh").on("click",function(){
+			$("#book_name_d").val("");
+			$("#author_d").val("");
+			$("#publisher_d").val("");
+			$("#isbn_d").val("");
+		});
 		
 		//검색으로 등록 <-> 직접 등록하기
 		$("#book_insert_direct").hide();
@@ -262,10 +269,11 @@
 					}else{
 						alert("등록에 실패하였습니다.");
 					}
+					
 				},
 			    error : function(request,status,error){
 			         alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-			        }
+				}
 
 			});
 		});
@@ -370,7 +378,7 @@
 		나의 도서 목록
 		<button type="button" onClick="location.href='/book/bookAdd'">내 도서 등록</button>		
 		<!-- Button trigger modal -->
-		<a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">내 도서 등록</a>
+		<a class="btn btn-warning font-color-white" data-bs-toggle="modal" href="#exampleModalToggle" role="button">내 도서 등록</a>
 		<div>
 			1.<br>
 			2.<br>
@@ -401,41 +409,43 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalToggleLabel"></h5>
-			<!-- 토글 -->
+			<!-- 토글 btn btn-warning font-color-white -->
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
   			<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="1" checked>
-  			<label class="btn btn-outline-primary" for="btnradio1">검색으로 등록</label>
+  			<label class="btn btn-outline-warning" for="btnradio1">검색으로 등록</label>
 
 			<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="0">
-			<label class="btn btn-outline-primary" for="btnradio2">직접 등록하기</label>
+			<label class="btn btn-outline-warning" for="btnradio2">직접 등록하기</label>
 			</div>
 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         
-        <div id="book_insert">
+<!--
+        <div id="book_insert" class="search-bar mx-auto mt-5 rounded-pill input-group mb-3">
         	<span><input type="text" id="keyword" ></span>
-        	<input type="button" id="search" value="검색">
+        	<button type="button" id="search" class="btn btn-warning font-color-white btn-sm">검색</button> 
         </div>
+-->
+        	<div id="book_insert" class="search-bar mx-auto mt-2 rounded-pill input-group mb-3">
+	  				<input type="text" id="keyword" class="form-control " placeholder="내 도서를 등록해주세요:)" aria-label="Recipient's username" aria-describedby="button-addon2">
+	  				<button class="btn btn-outline-secondary" type="button" id="search">검색</button>
+			</div> 
         
-        <div id="book_insert_direct">
-			<table>
+        <div id="book_insert_direct" class="search-bar mx-auto mt-2 rounded-pill input-group mb-3">
+			<table class="mx-auto">
 				<tr>
-					<td>제목</td>
-					<td><input type="text" name="book_name" id="book_name_d"></td>
+					<td><input type="text" name="book_name" id="book_name_d" class="form-control " placeholder="제목"></td>
 				</tr>
 				<tr>
-					<td>저자</td>
-					<td><input type="text" name="author" id="author_d"></td>
+					<td><input type="text" name="author" id="author_d" class="form-control " placeholder="글쓴이"></td>
 				</tr>
 				<tr>
-					<td>출판사</td>
-					<td><input type="text" name="publisher" id="publisher_d"></td>
+					<td><input type="text" name="publisher" id="publisher_d" class="form-control " placeholder="출판사"></td>
 				</tr>
 				<tr>
-					<td>ISBN</td>
-					<td><input type="text" name="isbn" id="isbn_d" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');" ></td>
+					<td><input type="text" name="isbn" id="isbn_d" class="form-control " placeholder="ISBN" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');" ></td>
 				</tr>
 				<!-- 
 				<tr>
@@ -474,13 +484,15 @@
 				</tr>
 				 -->
 				<tr>
-					<td colspan="2">
-					<button id="submit_form" type="button">		
-						등록
-					</button>
-					<button id="refresh" type="button">
+					<td>
+					<div class="row-vw d-flex">
+					<button id="refresh" type="button" class ="btn btn-warning btn-sm font-color-white mx-auto">
 						다시입력
 					</button>
+					<button id="submit_form" type="button" class ="btn btn-warning btn-sm font-color-white mx-auto">		
+						&nbsp;&nbsp;등&nbsp;&nbsp;록&nbsp;&nbsp;
+					</button>
+					</div>
 					</td> 
 				</tr>
 			</table>
